@@ -12,7 +12,7 @@ services:
         ports: 
             - "5432:5432"
         volumes:
-            - ~/db/db_users_table.sql:/docker-entrypoint-initdb.d/db_users_table.sql
+            - ./db/db_users_table.sql:/docker-entrypoint-initdb.d/db_users_table.sql
     
     pgadmin-compose:
         image: dpage/pgadmin4
