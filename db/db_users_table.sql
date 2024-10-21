@@ -6,3 +6,8 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+INSERT INTO users (email, password)
+VALUES ('riw@example.com', 'pass1234'),
+       ('yao3@example.com', 'pass1234');
