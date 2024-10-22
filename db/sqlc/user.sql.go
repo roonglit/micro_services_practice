@@ -29,7 +29,7 @@ func (q *Queries) CreateUser(ctx context.Context) (Users, error) {
 }
 
 const getUser = `-- name: GetUser :one
-SELECT id, email, password, created_at, updated_at FROM Users
+SELECT id, email, password, created_at, updated_at FROM users
 WHERE email = 'riw2@example.com' LIMIT 1
 `
 
