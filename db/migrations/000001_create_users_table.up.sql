@@ -8,5 +8,5 @@ CREATE TABLE users (
 
 
 INSERT INTO users (email, password)
-VALUES ('riw@example.com', 'pass1234'),
-       ('yao3@example.com', 'pass1234');
+VALUES ('riw@example.com', '382e0360e4eb7b70034fbaa69bec5786'),
+       ('yao3@example.com', '382e0360e4eb7b70034fbaa69bec5786');
