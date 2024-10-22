@@ -14,7 +14,10 @@ dropdb:
 createdb: 
 	docker exec -it micro_services_practice-postgres-1 createdb --username=root --owner=root auth_development
 
-.PHONY: migrateup migratedown dropdb createdb
+sqlc: 
+	sqlc generate
+
+.PHONY: migrateup migratedown dropdb createdb sqlc
 
 # Dirty database version 1. Fix and force version:
 # 	migrate -database "postgres://root:root@localhost:5432/auth_development?sslmode=disable" -path db/migrations force 15  
