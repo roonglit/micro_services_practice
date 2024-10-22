@@ -15,9 +15,9 @@ VALUES ('riw2@example.com', 'pass1234')
 RETURNING id, email, password, created_at, updated_at
 `
 
-func (q *Queries) CreateUser(ctx context.Context) (User, error) {
+func (q *Queries) CreateUser(ctx context.Context) (Users, error) {
 	row := q.db.QueryRowContext(ctx, createUser)
-	var i User
+	var i Users
 	err := row.Scan(
 		&i.ID,
 		&i.Email,
@@ -33,9 +33,9 @@ SELECT id, email, password, created_at, updated_at FROM Users
 WHERE email = 'riw2@example.com' LIMIT 1
 `
 
-func (q *Queries) GetUser(ctx context.Context) (User, error) {
+func (q *Queries) GetUser(ctx context.Context) (Users, error) {
 	row := q.db.QueryRowContext(ctx, getUser)
-	var i User
+	var i Users
 	err := row.Scan(
 		&i.ID,
 		&i.Email,

@@ -8,7 +8,7 @@ import (
 	"database/sql"
 )
 
-type User struct {
+type Users struct {
 	ID        int32        `json:"id"`
 	Email     string       `json:"email"`
 	Password  string       `json:"password"`

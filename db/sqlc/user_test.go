@@ -8,7 +8,6 @@ import (
 )
 
 func TestCreateUser(t *testing.T) {
-
 	user, err := testQueries.CreateUser(context.Background())
 	require.NoError(t, err)
 	require.NotEmpty(t, user)
