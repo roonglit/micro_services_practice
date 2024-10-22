@@ -7,6 +7,7 @@ package db
 import (
 	"context"
 	"database/sql"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type DBTX interface {
@@ -16,16 +17,16 @@ type DBTX interface {
 	QueryRowContext(context.Context, string, ...interface{}) *sql.Row
 }
 
-func New(db DBTX) *Queries {
-	return &Queries{db: db}
+func New(conPool *pgxpool.Pool) *Queries {
+	return &Queries{conPool: conPool}
 }
 
 type Queries struct {
-	db DBTX
+	conPool *pgxpool.Pool
 }
 
-func (q *Queries) WithTx(tx *sql.Tx) *Queries {
-	return &Queries{
-		db: tx,
-	}
-}
+//func (q *Queries) WithTx(tx *sql.Tx) *Queries {
+//	return &Queries{
+//		db: tx,
+//	}
+//}

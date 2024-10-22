@@ -16,7 +16,7 @@ RETURNING id, email, password, created_at, updated_at
 `
 
 func (q *Queries) CreateUser(ctx context.Context) (User, error) {
-	row := q.db.QueryRowContext(ctx, createUser)
+	row := q.conPool.QueryRow(ctx, createUser)
 	var i User
 	err := row.Scan(
 		&i.ID,
@@ -34,7 +34,7 @@ WHERE email = $1 LIMIT 1
 `
 
 func (q *Queries) GetUser(ctx context.Context, email string) (User, error) {
-	row := q.db.QueryRowContext(ctx, getUser, email)
+	row := q.conPool.QueryRow(ctx, getUser, email)
 	var i User
 	err := row.Scan(
 		&i.ID,
