@@ -10,7 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Login(c *gin.Context) {
+func LoginController(c *gin.Context) {
 	mockEmail := "yao@odds.team"
 	mockPassword := "382e0360e4eb7b70034fbaa69bec5786"
 

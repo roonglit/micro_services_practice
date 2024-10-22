@@ -6,6 +6,6 @@ import (
 )
 
 func SetupRoutes(r *gin.Engine) *gin.Engine {
-	r.POST("/users/login", users.Login)
+	r.POST("/users/login", users.LoginController)
 	return r
 }
