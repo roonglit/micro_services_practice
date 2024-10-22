@@ -1,17 +1,12 @@
 package main
 
 import (
-	"net/http"
-
+	"github.com/JackleStyle0/micro_services_practice/config"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	r := gin.Default()
-	r.GET("/users/login", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "user",
-		})
-	})
+	r = config.SetupRoutes(r)
 	r.Run("localhost:3000")
 }
