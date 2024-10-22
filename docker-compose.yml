@@ -1,4 +1,4 @@
-version: '3.6'
+
 services: 
     postgres:
         image: postgres:15-alpine 
@@ -22,3 +22,14 @@ services:
             - "16543:80"
         depends_on: 
             - postgres
+
+#     migrate:
+#         image: migrate/migrate
+#         networks:
+#             - new
+#         volumes:
+#             - .:/migrations
+#         command: ["-path", "/migrations", "-database",  "postgres://root:root@database:5432/postgres?sslmode=disable", "up", "3"]
+    
+# networks:
+#       new:
