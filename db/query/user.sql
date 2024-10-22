@@ -5,5 +5,5 @@ RETURNING *;
 
 -- name: GetUser :one
 SELECT * FROM users
-WHERE email = 'riw2@example.com' LIMIT 1;
+WHERE email = $1 LIMIT 1;
 
