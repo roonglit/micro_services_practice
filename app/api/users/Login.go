@@ -1,4 +1,4 @@
-package users
+package api
 
 import (
 	"context"
@@ -14,11 +14,10 @@ import (
 )
 
 const (
-	dbDriver = "postgres"
 	dbSource = "postgres://root:root@localhost:5432/auth_development?sslmode=disable"
 )
 
-func LoginController(c *gin.Context) {
+func Login(c *gin.Context) {
 	var login db.User
 	err := c.BindJSON(&login)
 	if err != nil {
@@ -32,6 +31,7 @@ func LoginController(c *gin.Context) {
 	isValid := validateEmailPatten(login.Email)
 	if !isValid {
 		c.JSON(400, "invalid request")
+		return
 	}
 
 	//conn, err := sql.Open(dbDriver, dbSource)
@@ -54,12 +54,14 @@ func LoginController(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(400, "invalid request1")
+		return
 	}
 
 	hash := md5.Sum([]byte(login.Password))
 	hashPassword := hex.EncodeToString(hash[:])
 	if user.Password != hashPassword {
 		c.JSON(400, "invalid password")
+		return
 	} else {
 		c.JSON(200, user)
 	}
