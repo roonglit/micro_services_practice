@@ -1,0 +1,35 @@
+
+services: 
+    postgres:
+        image: postgres:15-alpine 
+        restart: always
+        environment: 
+            # - DATABASE_HOST=127.0.0.1
+            - POSTGRES_USER=root
+            - POSTGRES_PASSWORD=root
+            - POSTGRES_DB=auth_development
+        ports: 
+            - "5432:5432"
+        volumes:
+            - ./db/db_users_table.sql:/docker-entrypoint-initdb.d/db_users_table.sql
+    
+    pgadmin-compose:
+        image: dpage/pgadmin4
+        environment: 
+            PGADMIN_DEFAULT_EMAIL: "root@gmail.com"
+            PGADMIN_DEFAULT_PASSWORD: "root!"
+        ports: 
+            - "16543:80"
+        depends_on: 
+            - postgres
+
+#     migrate:
+#         image: migrate/migrate
+#         networks:
+#             - new
+#         volumes:
+#             - .:/migrations
+#         command: ["-path", "/migrations", "-database",  "postgres://root:root@database:5432/postgres?sslmode=disable", "up", "3"]
+    
+# networks:
+#       new:
