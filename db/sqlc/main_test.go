@@ -1,11 +1,12 @@
 package db
 
 import (
-	"database/sql"
+	"context"
 	"log"
 	"os"
 	"testing"
 
+	"github.com/jackc/pgx/v5/pgxpool"
 	_ "github.com/stretchr/testify/require"
 
 	_ "github.com/lib/pq"
@@ -14,16 +15,18 @@ import (
 var testQueries *Queries
 
 const (
-	dbDriver = "postgresql"
+	// dbDriver = "postgresql"
 	dbSource = "postgres://root:root@localhost:5432/auth_development?sslmode=disable"
 )
 
 func TestMain(m *testing.M) {
-	conn, err := sql.Open(dbDriver, dbSource)
+
+	conPool, err := pgxpool.New(context.Background(), dbSource)
 	if err != nil {
 		log.Fatal("can't connect db", err)
 	}
-	testQueries = New(conn)
+	testQueries = New(conPool)
+
 	os.Exit(m.Run())
 
 }
