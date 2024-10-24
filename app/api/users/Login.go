@@ -1,25 +1,20 @@
-package api
+package app
 
 import (
-	"context"
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
-	db "github.com/JackleStyle0/micro_services_practice/db/sqlc"
-	"github.com/gin-gonic/gin"
-	"github.com/jackc/pgx/v5/pgxpool"
-	_ "github.com/lib/pq"
 	"log"
 	"regexp"
-)
 
-const (
-	dbSource = "postgres://root:root@localhost:5432/auth_development?sslmode=disable"
+	db "github.com/JackleStyle0/micro_services_practice/db/sqlc"
+	"github.com/gin-gonic/gin"
+	_ "github.com/lib/pq"
 )
 
 func Login(c *gin.Context) {
 	var login db.User
-	err := c.BindJSON(&login)
+	err := c.ShouldBindJSON(&login)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -39,13 +34,7 @@ func Login(c *gin.Context) {
 		log.Fatal("can't connect db", err)
 	}
 
-	conPool, err := pgxpool.New(context.Background(), dbSource)
-	if err != nil {
-		log.Fatal("cannot connect to database")
-	}
-
-	query := db.New(conPool)
-	user, err := query.GetUser(context.Background(), "yao3@example.com")
+	user, err := queries.GetUser(c, login.Email)
 	if err != nil {
 		fmt.Println(">>>> error", err)
 	} else {
