@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/JackleStyle0/micro_services_practice/config"
+	"github.com/JackleStyle0/micro_services_practice/app/api"
 	db "github.com/JackleStyle0/micro_services_practice/db/sqlc"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
@@ -13,8 +13,6 @@ const (
 	dbSource = "postgres://root:root@localhost:5432/auth_development?sslmode=disable"
 )
 
-var queries *db.Queries
-
 func main() {
 
 	conPool, err := pgxpool.New(context.Background(), dbSource)
@@ -22,7 +20,8 @@ func main() {
 		log.Fatal("cannot connect to database")
 	}
 
-	queries = db.New(conPool)
-	r := config.SetupRoutes()
+	queries := db.New(conPool)
+	server, _ := api.NewServer(queries)
+	r := server.SetupRoutes()
 	r.Run("localhost:3000")
 }
