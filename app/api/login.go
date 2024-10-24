@@ -4,35 +4,44 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
-	"log"
-	"regexp"
+	"net/http"
 
-	db "github.com/JackleStyle0/micro_services_practice/db/sqlc"
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator"
 	_ "github.com/lib/pq"
 )
 
 func (server *Server) Login(c *gin.Context) {
-	var login db.User
+	var login LoginReq
 	err := c.ShouldBindJSON(&login)
 	if err != nil {
 		fmt.Println(err)
 	}
+	validate := validator.New()
 
-	if login.Email == "" || login.Password == "" {
-		c.JSON(400, "Bad Request")
-	}
-
-	isValid := validateEmailPatten(login.Email)
-	if !isValid {
-		c.JSON(400, "invalid request")
+	err = validate.Struct(login)
+	if err != nil {
+		// Validation failed, handle the error
+		errors := err.(validator.ValidationErrors)
+		fmt.Printf("Validation error", errors)
+		http.Error(c.Writer, fmt.Sprintf("Validation error: %s", errors), http.StatusBadRequest)
 		return
 	}
 
+	// if login.Email == "" || login.Password == "" {
+	// 	c.JSON(400, "Bad Request")
+	// }
+
+	// isValid := validateEmailPatten(login.Email)
+	// if !isValid {
+	// 	c.JSON(400, "invalid request")
+	// 	return
+	// }
+
 	//conn, err := sql.Open(dbDriver, dbSource)
-	if err != nil {
-		log.Fatal("can't connect db", err)
-	}
+	// if err != nil {
+	// 	log.Fatal("can't connect db", err)
+	// }
 
 	user, err := server.store.GetUser(c, login.Email)
 	if err != nil {
@@ -56,8 +65,9 @@ func (server *Server) Login(c *gin.Context) {
 	}
 }
 
-func validateEmailPatten(email string) bool {
-	pattern := regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
-	isMatch := pattern.MatchString(email)
-	return isMatch
-}
+// func validateEmailPatten(email string) bool {
+// 	pattern := regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
+// 	isMatch := pattern.MatchString(email)
+// 	return isMatch
+
+// }
