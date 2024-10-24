@@ -23,7 +23,7 @@ func (server *Server) Login(c *gin.Context) {
 	if err != nil {
 		// Validation failed, handle the error
 		errors := err.(validator.ValidationErrors)
-		fmt.Printf("Validation error", errors)
+		fmt.Print("Validation error", errors)
 		http.Error(c.Writer, fmt.Sprintf("Validation error: %s", errors), http.StatusBadRequest)
 		return
 	}
