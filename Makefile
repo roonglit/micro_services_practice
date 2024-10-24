@@ -9,10 +9,10 @@ migratedown:
 	migrate -path db/migrations -database "postgres://root:root@localhost:5432/auth_development?sslmode=disable" -verbose down 1
 
 migrategooseup:
-	goose postgres "user=root password=root dbname=auth_development sslmode=disable host=localhost" -dir "./db/migrations" up
+	goose postgres "user=root password=root dbname=auth_development sslmode=disable host=localhost" -dir "./db/migrations/goose" up
 
 migrategoosedown:
-	goose postgres "user=root password=root dbname=auth_development sslmode=disable host=localhost" -dir "./db/migrations" down
+	goose postgres "user=root password=root dbname=auth_development sslmode=disable host=localhost" -dir "./db/migrations/goose" down
 
 dropdb: 
 	docker exec -it micro_services_practice-postgres-1 dropdb auth_development
